@@ -21,6 +21,8 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'role',
+        'manager_id',
     ];
 
     /**
@@ -40,16 +42,40 @@ class User extends Authenticatable
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
-        'password' => 'hashed',
+        'password'          => 'hashed',
     ];
-
 
     const ROLE_EMPLOYEE = 0;
-    const ROLE_ADMIN = 1;
-    const ROLE_MANAGER = 2;
-    public static $user_role =[
-        self::ROLE_ADMIN => 'admin',
-        self::ROLE_MANAGER => 'manager',
-        self::ROLE_EMPLOYEE => 'employee',
+    const ROLE_ADMIN    = 1;
+    const ROLE_MANAGER  = 2;
+
+    public static $user_role = [
+        self::ROLE_ADMIN    => 'Admin',
+        self::ROLE_MANAGER  => 'Manager',
+        self::ROLE_EMPLOYEE => 'Employee',
     ];
+
+    /**
+     * The manager this employee is assigned to.
+     */
+    public function manager()
+    {
+        return $this->belongsTo(User::class, 'manager_id');
+    }
+
+    /**
+     * Employees assigned to this manager.
+     */
+    public function employees()
+    {
+        return $this->hasMany(User::class, 'manager_id');
+    }
+
+    /**
+     * Leave applications submitted by this user.
+     */
+    public function leaveApplications()
+    {
+        return $this->hasMany(LeaveApplication::class);
+    }
 }
