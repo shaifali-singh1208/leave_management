@@ -16,6 +16,7 @@ class LeaveType extends Model
         'entitlement_days',
     ];
 
+    
     public function leaveApplications()
     {
         return $this->hasMany(LeaveApplication::class);

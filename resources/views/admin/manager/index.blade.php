@@ -23,12 +23,13 @@
                 @endif
 
                 <div class="table-responsive">
-                    <table class="table table-bordered table-hover table-striped">
-                        <thead class="bg-gray-50">
+                    <table class="projects table table-bordered table-hover table-striped">
+                        <thead class="ty-1">
                             <tr>
                                 <th style="width:5%">Sn</th>
                                 <th>Name</th>
                                 <th>Email</th>
+                                <th>Department</th>
                                 <th>Employees Assigned</th>
                                 <th>Date Joined</th>
                                 <th style="width:20%">Action</th>
@@ -40,6 +41,9 @@
                                     <td>{{ ++$key }}</td>
                                     <td>{{ $item->name }}</td>
                                     <td>{{ $item->email }}</td>
+                                    <td>
+                                        {{ $item->department->name ?? 'N/A' }}
+                                    </td>
                                     <td>
                                         <span class="badge bg-info text-dark">{{ $item->employees_count }}</span>
                                     </td>

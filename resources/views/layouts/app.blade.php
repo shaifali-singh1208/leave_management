@@ -14,7 +14,25 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
       
 <!-- Scripts -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
         @vite(['resources/css/app.css', 'resources/js/app.js'])
+        <style>
+            .ty-1 {
+                background-color: #f8f9fa;
+                border-bottom: 2px solid #dee2e6;
+            }
+            .projects.table thead th {
+                border-top: 0;
+                border-bottom: 2px solid #dee2e6;
+                text-transform: uppercase;
+                font-size: 0.85rem;
+                font-weight: 600;
+                color: #495057;
+            }
+            .btn-success.rounded-0 {
+                border-radius: 0 !important;
+            }
+        </style>
     </head>
     <body class="font-sans antialiased">
         <div class="min-h-screen bg-gray-100">

@@ -65,6 +65,12 @@ class LeaveApplication extends Model
             $query->whereDate('end_date', '<=', request('date_to'));
         }
 
+        if (request()->filled('department_id')) {
+            $query->whereHas('user', function ($q) {
+                $q->where('department_id', request('department_id'));
+            });
+        }
+
         if (request()->filled('search')) {
             $search = request('search');
             $query->whereHas('user', function ($q) use ($search) {

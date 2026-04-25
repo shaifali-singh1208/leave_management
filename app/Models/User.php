@@ -23,6 +23,7 @@ class User extends Authenticatable
         'password',
         'role',
         'manager_id',
+        'department_id',
     ];
 
     /**
@@ -77,5 +78,20 @@ class User extends Authenticatable
     public function leaveApplications()
     {
         return $this->hasMany(LeaveApplication::class);
+    }
+
+    public function department()
+    {
+        return $this->belongsTo(Department::class);
+    }
+
+    /**
+     * Get leave usage for a specific type and year.
+     */
+    public function getLeaveUsage($leaveTypeId)
+    {
+        return $this->leaveApplications()->where('leave_type_id', $leaveTypeId)->where('status', LeaveApplication::STATUS_ACTIVE)->get()->sum(function ($leave) {
+                return $leave->start_date->diffInDays($leave->end_date) + 1;
+            });
     }
 }

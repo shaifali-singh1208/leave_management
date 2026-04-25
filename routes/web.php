@@ -30,26 +30,24 @@ Route::middleware('auth')->group(function () {
 Route::middleware(['auth', 'admin'])->prefix('admin')->group(function () {
 
     Route::resource('leave-type', LeaveTypeController::class, ['as' => 'admin']);
-
+    Route::delete('leave-type/{leaveType}', [LeaveTypeController::class, 'destroy'])->name('admin.leave-type.destroy');
     Route::resource('manager', ManagerController::class, ['as' => 'admin']);
-
     Route::resource('employee', EmployeeController::class, ['as' => 'admin']);
 
     Route::get('leave-applications', [LeaveApplicationController::class, 'adminIndex'])->name('admin.leave-applications.index');
-
+    Route::get('leave-applications/export', [LeaveApplicationController::class, 'exportCsv'])->name('admin.leave-applications.export');
     Route::patch('leave-applications/{leaveApplication}/status', [LeaveApplicationController::class, 'adminUpdateStatus'])->name('admin.leave-applications.status');
 });
 
 Route::middleware(['auth', 'manager'])->prefix('manager')->name('manager.')->group(function () {
-
     Route::get('leave-applications', [LeaveApplicationController::class, 'managerIndex'])->name('leave-applications.index');
-
     Route::patch('leave-applications/{leaveApplication}/review', [LeaveApplicationController::class, 'managerReview'])->name('leave-applications.review');
 });
 
 Route::middleware(['auth', 'employee'])->prefix('employee')->name('employee.')->group(function () {
 
-    Route::resource('leave-applications', LeaveApplicationController::class)
+    Route::resource('leave-request', LeaveApplicationController::class)
+        ->parameters(['leave-request' => 'leaveApplication'])
         ->only(['index', 'create', 'store', 'destroy']);
 });
 

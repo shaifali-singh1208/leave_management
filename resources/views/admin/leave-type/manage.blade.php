@@ -15,7 +15,7 @@
               </ul>
           </div>
       @endif
-      <div class="row">
+<div class="row justify-content-center">
           <div class="col-6">
               <div class="py-10 bg-gray-100 min-h-screen">
                   <div class="max-w-3xl mx-auto">
@@ -42,7 +42,7 @@
 
                               <div class="mb-4">
                                   <label class="block font-medium mb-1">Leave Type Name</label>
-                                  <input type="text" name="name" class="w-full border rounded-lg p-3"
+                                  <input type="text" name="name" class="form-control"
                                       value="{{ old('name', $aRow->name ?? '') }}">
                               </div>
                               @error('name')
@@ -51,7 +51,7 @@
 
                               <div class="mb-4">
                                   <label class="block font-medium mb-1">Total Days</label>
-                                  <input type="number" name="entitlement_days" class="w-full border rounded-lg p-3"
+                                  <input type="number" name="entitlement_days" class="form-control"
                                       value="{{ old('entitlement_days', $aRow->entitlement_days ?? '') }}">
                               </div>
                               @error('entitlement_days')
@@ -60,7 +60,7 @@
 
                               <div class="mt-6">
                                   <button type="submit"
-                                      class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 rounded-lg ">
+                                      class="btn btn-success ">
                                       Submit
                                   </button>
                               </div>

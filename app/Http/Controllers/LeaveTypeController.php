@@ -50,7 +50,7 @@ class LeaveTypeController extends Controller
     public function edit(LeaveType $leaveType)
     {
         $aRow = $leaveType;
-        return view('admin.leave_type.manage', compact('aRow'));
+        return view('admin.leave-type.manage', compact('aRow'));
     }
 
     /**
@@ -73,7 +73,14 @@ class LeaveTypeController extends Controller
     }
 
 
-    public function destroy(LeaveType $leaveType) {
-        
+    public function destroy(LeaveType $leaveType) 
+    {
+        if ($leaveType->leaveApplications()->exists()) {
+            return back()->with('error', 'Cannot delete leave type because it has associated applications.');
+        }
+
+        $leaveType->delete();
+
+        return redirect()->route('admin.leave-type.index')->with('success', 'Leave Type deleted successfully');
     }
 }

@@ -34,12 +34,12 @@
 
                     @if(auth()->user()->role === $UserObj::ROLE_MANAGER)
                         <x-nav-link :href="route('manager.leave-applications.index')" :active="request()->routeIs('manager.leave-applications.*')">
-                            {{ __('Review Leaves') }}
+                            {{ __(' Leave Applications') }}
                         </x-nav-link>
                     @endif
 
                     @if(auth()->user()->role === $UserObj::ROLE_EMPLOYEE)
-                        <x-nav-link :href="route('employee.leave-applications.index')" :active="request()->routeIs('employee.leave-applications.*')">
+                        <x-nav-link :href="route('employee.leave-request.index')" :active="request()->routeIs('employee.leave-request.*')">
                             {{ __('My Leaves') }}
                         </x-nav-link>
                     @endif
@@ -111,7 +111,7 @@
             @endif
 
             @if(auth()->user()->role === $UserObj::ROLE_EMPLOYEE)
-                <x-responsive-nav-link :href="route('employee.leave-applications.index')">My Leaves</x-responsive-nav-link>
+                <x-responsive-nav-link :href="route('employee.leave-request.index')">My Leaves</x-responsive-nav-link>
             @endif
         </div>
 

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Models\Department;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rule;
@@ -14,7 +15,7 @@ class EmployeeController extends Controller
      */
     public function index()
     {
-        $aRows = User::where('role', User::ROLE_EMPLOYEE)->with('manager')->orderBy('id', 'desc')->get();
+        $aRows = User::where('role', User::ROLE_EMPLOYEE)->with(['manager', 'department'])->orderBy('id', 'desc')->get();
 
         return view('admin.employee.index', compact('aRows'));
     }
@@ -26,7 +27,8 @@ class EmployeeController extends Controller
     {
         $aRow     = null;
         $managers = User::where('role', User::ROLE_MANAGER)->orderBy('name')->get();
-        return view('admin.employee.manage', compact('aRow', 'managers'));
+        $departments = Department::orderBy('name')->get();
+        return view('admin.employee.manage', compact('aRow', 'managers', 'departments'));
     }
 
     /**
@@ -35,17 +37,19 @@ class EmployeeController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'name'       => 'required|string|max:255',
-            'email'      => 'required|email|unique:users,email',
-            'password'   => 'required|string|min:8|confirmed',
-            'manager_id' => 'nullable|exists:users,id',
+            'name'          => 'required|string|max:255',
+            'email'         => 'required|email|unique:users,email',
+            'password'      => 'required|string|min:8|confirmed',
+            'manager_id'    => 'nullable|exists:users,id',
+            'department_id' => 'nullable|exists:departments,id',
         ]);
         User::create([
-            'name'       => $request->name,
-            'email'      => $request->email,
-            'password'   => Hash::make($request->password),
-            'role'       => User::ROLE_EMPLOYEE,
-            'manager_id' => $request->manager_id ?: null,
+            'name'          => $request->name,
+            'email'         => $request->email,
+            'password'      => Hash::make($request->password),
+            'role'          => User::ROLE_EMPLOYEE,
+            'manager_id'    => $request->manager_id ?: null,
+            'department_id' => $request->department_id ?: null,
         ]);
 
         return redirect()->route('admin.employee.index')->with('success', 'Employee created successfully.');
@@ -61,8 +65,9 @@ class EmployeeController extends Controller
         }
         $aRow     = $employee;
         $managers = User::where('role', User::ROLE_MANAGER)->orderBy('name')->get();
+        $departments = Department::orderBy('name')->get();
 
-        return view('admin.employee.manage', compact('aRow', 'managers'));
+        return view('admin.employee.manage', compact('aRow', 'managers', 'departments'));
     }
 
     /**
@@ -75,16 +80,18 @@ class EmployeeController extends Controller
         }
 
         $request->validate([
-            'name'       => 'required|string|max:255',
-            'email'      => ['required', 'email', Rule::unique('users', 'email')->ignore($employee->id)],
-            'password'   => 'nullable|string|min:8|confirmed',
-            'manager_id' => 'nullable|exists:users,id',
+            'name'          => 'required|string|max:255',
+            'email'         => ['required', 'email', Rule::unique('users', 'email')->ignore($employee->id)],
+            'password'      => 'nullable|string|min:8|confirmed',
+            'manager_id'    => 'nullable|exists:users,id',
+            'department_id' => 'nullable|exists:departments,id',
         ]);
 
         $data = [
-            'name'       => $request->name,
-            'email'      => $request->email,
-            'manager_id' => $request->manager_id ?: null,
+            'name'          => $request->name,
+            'email'         => $request->email,
+            'manager_id'    => $request->manager_id ?: null,
+            'department_id' => $request->department_id ?: null,
         ];
 
         if ($request->filled('password')) {
