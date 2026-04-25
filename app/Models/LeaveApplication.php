@@ -45,7 +45,7 @@ class LeaveApplication extends Model
     }
 
     /**
-     * Scope for filtering leave applications based on request parameters.
+     * Scope for filter for leave Application.
      */
     public function scopeFilter($query)
     {
