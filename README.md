@@ -8,6 +8,7 @@ A production-realistic Internal Web Application built with Laravel 10 for managi
 - **Employee Portal:** Apply for leave, track status, view leave balance vs entitlement, and cancel pending requests.
 - **Manager Dashboard:** Review (Approve/Reject) leave applications from assigned team members with comments.
 - **Admin Panel:** Full CRUD for users (Employees/Managers), Leave Type management (with entitlement configuration), and global leave status override.
+- **Department Integration:** Employees and managers are organized by departments for better organizational structure.
 - **Advanced Filtering:** Admin can filter applications by Leave Type, Status, Department, Date Range, and Name/Email.
 - **Validation:** Overlap detection for approved leaves and date range validation.
 
@@ -69,7 +70,6 @@ php artisan migrate --seed
 | **Manager**  | manager@gmail.com  | 12345678  |
 | **Employee** | employee@gmail.com | 12345678  |
 
-
 ## Architectural Decisions & Trade-offs
 
 - **Modular Design:** Used Laravel's standard MVC architecture. Separated logic for Employees, Managers, and Admins into dedicated controllers.
@@ -78,8 +78,10 @@ php artisan migrate --seed
 - **Database Optimization:** Used Eloquent scopes (`scopeFilter`) for clean and reusable query filtering logic.
 - **Validation:** Implemented strict date validation and overlap checks to prevent data inconsistency.
 
+## Bonus Features Implemented
 
-## Bonus Feature Implement
-**manage leave application csv file export
-**fetch api for list of leave application
-- method Get api/leave-applications
+- **CSV Export (Admin Only):** Administrators can export filtered leave application data to CSV.
+- **Leave Balance Auto-calculation:** Dynamically tracks "Days Used" vs "Entitlement" for each leave type.
+- **Basic API Endpoints:** JSON API for retrieving the leave application list.
+    - **Endpoint:** `GET /api/leave-applications`
+- **Department Association:** Seamless linking of users to specific organizational departments.
